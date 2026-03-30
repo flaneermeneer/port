@@ -737,7 +737,21 @@ a.project-card:hover { background: #1c1c1c; }
 /* ════════════════════════════
    RESPONSIVE
    ════════════════════════════ */
-@media (max-width: 48em) {
+
+   @media (hover: none) and (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+
+  *, a, button {
+    cursor: auto;
+  }
+
+  .cursor {
+    display: none;
+  }
+}
+@media (max-width: 1080px) {
   
 
   /* hide fixed nav on mobile so hero center content breathes */
@@ -780,7 +794,7 @@ a.project-card:hover { background: #1c1c1c; }
   .project-nav-next { text-align: left; border-left: none; border-top: 0.0625rem solid var(--border); }
 }
 
-@media (max-width: 30em) {
+@media (max-width: 1080px) {
   .name { font-size: clamp(2.75rem, 16vw, 4.5rem); }
   .section { padding: 4rem 1.25rem; }
   .project-info { padding: 1.25rem 1.25rem 1.75rem; }
