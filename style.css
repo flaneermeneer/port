@@ -1,0 +1,798 @@
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #0e0e0e;
+  --white: #f2f0ec;
+  --muted: rgba(242,240,236,0.35);
+  --border: rgba(242,240,236,0.1);
+  --red: #e63946;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ════════════════════════════
+   CURSOR
+   ════════════════════════════ */
+body { cursor: none; }
+*, a, button { cursor: none; }
+
+.cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 0.75rem; height: 0.75rem;
+  background: var(--red);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  translate: -50% -50%;
+  transition: scale 0.15s ease;
+}
+
+/* ════════════════════════════
+   FIXED NAV
+   ════════════════════════════ */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2.5rem;
+  mix-blend-mode: difference;
+}
+
+.site-nav-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.125rem;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.site-nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.site-nav-links a {
+  font-size: 0.625rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 300;
+  transition: opacity 0.2s;
+}
+.site-nav-links a:hover { opacity: 0.5; }
+
+/* ════════════════════════════
+   HERO
+   ════════════════════════════ */
+   .bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.1; /* dim it so text stays readable */
+}
+.page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* tulips — decorative top strip, never overlaps center content */
+.bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(0.3rem, 0.8vw, 0.75rem);
+  /* no position: absolute, no top/left/right */
+  /* width matches the name naturally */
+  width: 100%;
+  pointer-events: none;
+}
+
+/* individual tulip */
+.tulip {
+  flex-shrink: 0;
+  width: clamp(0.75rem, 1.6vw, 1.75rem);
+  height: clamp(2rem, 6vh, 5rem);
+  opacity: 0;
+  animation: dropIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 88'%3E%3Cline x1='20' y1='88' x2='20' y2='38' stroke='%23f2f0ec' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M20 62 Q6 54 8 40 Q16 52 20 54' fill='%23f2f0ec'/%3E%3Cpath d='M20 56 Q34 48 32 34 Q24 46 20 48' fill='%23f2f0ec'/%3E%3Cpath d='M20 38 Q4 30 6 12 Q12 26 20 28' fill='%23f2f0ec'/%3E%3Cpath d='M20 38 Q36 30 34 12 Q28 26 20 28' fill='%23f2f0ec'/%3E%3Cpath d='M20 36 Q14 20 20 4 Q26 20 20 36' fill='%23f2f0ec'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+}
+
+/* heights use clamp so they scale with the viewport */
+.tulip:nth-child(1)  { height: clamp(1.8rem, 5.5vh,  4.375rem); transform: rotate(-6deg);  animation-delay: 0.05s; }
+.tulip:nth-child(2)  { height: clamp(2.4rem, 7.5vh,  5.9375rem);transform: rotate(4deg);   animation-delay: 0.12s; }
+.tulip:nth-child(3)  { height: clamp(1.5rem, 4.5vh,  3.75rem);  transform: rotate(-3deg);  animation-delay: 0.2s;  }
+.tulip:nth-child(4)  { height: clamp(2.8rem, 8.5vh,  6.875rem); transform: rotate(8deg);   animation-delay: 0.08s; }
+.tulip:nth-child(5)  { height: clamp(1.9rem, 5.8vh,  4.6875rem);transform: rotate(-9deg);  animation-delay: 0.18s; }
+.tulip:nth-child(6)  { height: clamp(2.2rem, 7vh,    5.625rem); transform: rotate(2deg);   animation-delay: 0.25s; }
+.tulip:nth-child(7)  { height: clamp(2.9rem, 9vh,    7.1875rem);transform: rotate(-5deg);  animation-delay: 0.1s;  }
+.tulip:nth-child(8)  { height: clamp(1.6rem, 5vh,    4.0625rem);transform: rotate(7deg);   animation-delay: 0.3s;  }
+.tulip:nth-child(9)  { height: clamp(2.5rem, 7.8vh,  6.25rem);  transform: rotate(-2deg);  animation-delay: 0.15s; }
+.tulip:nth-child(10) { height: clamp(2rem,   6.2vh,  5rem);     transform: rotate(10deg);  animation-delay: 0.22s; }
+.tulip:nth-child(11) { height: clamp(1.4rem, 4.2vh,  3.4375rem);transform: rotate(-7deg);  animation-delay: 0.07s; }
+.tulip:nth-child(12) { height: clamp(2.6rem, 8.2vh,  6.5625rem);transform: rotate(3deg);   animation-delay: 0.28s; }
+.tulip:nth-child(13) { height: clamp(1.8rem, 5.5vh,  4.5rem);   transform: rotate(-4deg);  animation-delay: 0.16s; }
+.tulip:nth-child(14) { height: clamp(2.2rem, 6.8vh,  5.5rem);   transform: rotate(6deg);   animation-delay: 0.2s;  }
+
+@keyframes dropIn {
+  from { opacity: 0; transform: scaleY(0); transform-origin: bottom; }
+  to   { opacity: 1; transform: scaleY(1); }
+}
+
+/* center content */
+.page {
+  position: relative; /* dit moet erin — waarschijnlijk ontbreekt het */
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 90%;
+}
+.name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.25rem, 10vw, 6.875rem);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-title {
+  font-size: clamp(0.6875rem, 1.4vw, 0.8125rem);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0;
+  animation: fadeUp 0.9s 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.divider {
+  width: 0.0625rem; height: 2.5rem;
+  background: var(--border);
+  opacity: 0;
+  animation: fadeUp 0.9s 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.nav {
+  display: flex;
+  gap: 2.25rem;
+  opacity: 0;
+  animation: fadeUp 0.9s 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.nav a {
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-weight: 300;
+}
+.nav a:hover { color: var(--white); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(1.125rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.corner {
+  position: absolute;
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,0.2);
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeUp 1s 1.3s ease forwards;
+}
+.corner.tl { top: 3.8rem; left: 2.4rem; }
+.corner.tr { top: 3.8rem; right: 2.4rem; text-align: right; }
+.corner.bl { bottom: 1.75rem; left: 2rem; }
+.corner.br { bottom: 1.75rem; right: 2rem; text-align: right; }
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem; left: 49%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 1s 1.5s ease forwards;
+}
+.scroll-hint span {
+  font-size: 0.5625rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,0.2);
+}
+.scroll-line {
+  width: 0.0625rem; height: 2rem;
+  background: rgba(242,240,236,0.15);
+  animation: pulse 2s 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.15; }
+  50%       { opacity: 0.5;  }
+}
+
+/* ════════════════════════════
+   SHARED SECTION STYLES
+   ════════════════════════════ */
+.section {
+  padding: 7.5rem 5rem;
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 4.5rem;
+}
+.section-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.8125rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  line-height: 1;
+}
+.section-line {
+  flex: 1;
+  height: 0.0625rem;
+  background: var(--border);
+}
+
+/* ════════════════════════════
+   WORK
+   ════════════════════════════ */
+ul {
+  list-style: none;
+}
+
+ul li:nth-of-type(4){
+  visibility: hidden;
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.125rem;
+}
+
+a.project-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: #141414;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+a.project-card:hover { background: #1c1c1c; }
+
+.project-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #1e1e1e;
+  position: relative;
+  overflow: hidden;
+}
+.project-img.placeholder::after {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,0.15);
+}
+.project-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-info {
+  padding: 1.75rem 2rem 2.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+.project-tag {
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 300;
+}
+.project-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.75rem;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+}
+.project-desc {
+  font-size: 0.8125rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.project-link {
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  margin-top: 0.5rem;
+  display: inline-block;
+  transition: opacity 0.2s;
+}
+.project-link:hover { opacity: 0.5; }
+
+/* ════════════════════════════
+   ABOUT
+   ════════════════════════════ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 20rem;
+  gap: 5rem;
+  align-items: start;
+}
+.about-intro {
+  font-size: clamp(1rem, 2vw, 1.375rem);
+  font-weight: 300;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+.about-body {
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+.about-cta {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  border-bottom: 0.0625rem solid var(--border);
+  padding-bottom: 0.25rem;
+  transition: border-color 0.2s;
+}
+.about-cta:hover { border-color: var(--white); }
+
+.about-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding-top: 0.5rem;
+}
+.skills-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.skills-label {
+  font-size: 0.625rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 300;
+}
+.skills-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.skills-list li {
+  font-size: 0.8125rem;
+  font-weight: 300;
+  color: var(--white);
+  padding-left: 0.75rem;
+  border-left: 0.0625rem solid var(--border);
+}
+
+/* ════════════════════════════
+   CONTACT
+   ════════════════════════════ */
+.section--last {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  border-top: 0.0625rem solid var(--border);
+  padding: 7.5rem 5rem;
+  max-width: 100%;
+}
+.contact-inner {
+  max-width: 75rem;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.contact-heading {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.25rem, 9vw, 7.5rem);
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.contact-email {
+  font-size: clamp(0.875rem, 2vw, 1.25rem);
+  font-weight: 300;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+}
+.contact-email:hover { color: var(--white); }
+.contact-socials {
+  display: flex;
+  gap: 2rem;
+  margin-top: 0.5rem;
+}
+.contact-socials a {
+  font-size: 0.625rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.contact-socials a:hover { color: var(--white); }
+
+/* ════════════════════════════
+   PROJECT DETAIL PAGE
+   ════════════════════════════ */
+.project-hero {
+  padding: 10rem 5rem 5rem;
+  max-width: 75rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.back-link {
+  font-size: 0.625rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 300;
+  transition: color 0.2s;
+  align-self: flex-start;
+}
+.back-link:hover { color: var(--white); }
+
+.project-hero-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 48.75rem;
+}
+.project-hero-number {
+  font-size: 0.625rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 300;
+}
+.project-hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.25rem, 9vw, 6.875rem);
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  line-height: 1;
+}
+.project-hero-sub {
+  font-size: clamp(0.875rem, 1.8vw, 1.125rem);
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 35rem;
+}
+
+.project-hero-img {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.project-hero-img img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+  background: #1a1a1a;
+}
+.project-hero-img figcaption,
+.project-gallery figcaption,
+.project-img-wide figcaption {
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,0.2);
+  font-weight: 300;
+}
+
+/* meta strip */
+.project-meta {
+  border-top: 0.0625rem solid var(--border);
+  border-bottom: 0.0625rem solid var(--border);
+  padding: 2.5rem 5rem;
+  max-width: 75rem;
+  margin: 0 auto;
+}
+.project-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+}
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+.meta-item dt {
+  font-size: 0.625rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 300;
+}
+.meta-item dd {
+  font-size: 0.8125rem;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.6;
+}
+.meta-links dd {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+.meta-links a {
+  font-size: 0.8125rem;
+  font-weight: 300;
+  color: var(--white);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.meta-links a:hover { opacity: 0.5; }
+
+/* case study */
+.project-body {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 6.25rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+.case-block {
+  display: grid;
+  grid-template-columns: 12.5rem 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+.case-label {
+  font-size: 0.625rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 300;
+  padding-top: 0.25rem;
+}
+.case-text {
+  font-size: clamp(0.875rem, 1.6vw, 1.0625rem);
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(242,240,236,0.8);
+}
+.case-list {
+  list-style: none;
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  grid-column: 2;
+}
+.case-list li {
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: var(--muted);
+  padding-left: 1rem;
+  border-left: 0.0625rem solid var(--border);
+}
+
+/* gallery */
+.project-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.125rem;
+  max-width: 75rem;
+  margin: 0 auto;
+  width: 100%;
+}
+.project-gallery figcaption {
+  grid-column: 1 / -1;
+  padding: 0.75rem 0 0;
+}
+.gallery-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  background: #1a1a1a;
+}
+
+/* wide image */
+.project-img-wide {
+  max-width: 75rem;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.project-img-wide img {
+  width: 100%;
+  aspect-ratio: 21/9;
+  object-fit: cover;
+  display: block;
+  background: #1a1a1a;
+}
+
+/* prev/next */
+.project-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 0.0625rem solid var(--border);
+}
+.project-nav-prev,
+.project-nav-next {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 3rem 5rem;
+  text-decoration: none;
+  color: var(--white);
+  transition: background 0.2s;
+}
+.project-nav-prev:hover,
+.project-nav-next:hover { background: #141414; }
+.project-nav-next {
+  text-align: right;
+  border-left: 0.0625rem solid var(--border);
+}
+.project-nav-prev span,
+.project-nav-next span {
+  font-size: 0.625rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 300;
+}
+.project-nav-prev strong,
+.project-nav-next strong {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.375rem, 3vw, 2.25rem);
+  letter-spacing: 0.04em;
+  font-weight: 400;
+}
+
+/* ════════════════════════════
+   RESPONSIVE
+   ════════════════════════════ */
+@media (max-width: 48em) {
+
+  /* hide fixed nav on mobile so hero center content breathes */
+  .site-nav { display: none; }
+
+  .corner.tl { top: 1.25rem; left: 1.25rem; }
+  .corner.tr { top: 1.25rem; right: 1.25rem; }
+
+  /* shrink tulip strip further on mobile */
+  .bars {
+    height: clamp(21rem, 8vh, 5.5rem);
+    gap: clamp(0.2rem, 0.5vw, 0.45rem);
+    padding: 0 0.5rem;
+  }
+
+  .section { padding: 5rem 1.5rem; }
+  .section-header { margin-bottom: 3rem; }
+  .section--last { padding: 5rem 1.5rem; min-height: auto; }
+
+  .projects-grid { grid-template-columns: 1fr; }
+
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+
+  .contact-socials { gap: 1.25rem; flex-wrap: wrap; }
+
+  .scroll-hint span{visibility: hidden;}
+
+
+  /* project page */
+  .project-hero { padding: 4rem 1.5rem 3.75rem; gap: 2.5rem; }
+  .project-meta { padding: 2rem 1.5rem; }
+  .project-meta-grid { grid-template-columns: repeat(2, 1fr); gap: 1.75rem; }
+  .project-body { padding: 4rem 1.5rem; gap: 3.5rem; }
+  .case-block { grid-template-columns: 1fr; gap: 0.75rem; }
+  .case-list { grid-column: 1; }
+  .project-gallery { grid-template-columns: 1fr; }
+  .project-img-wide img { aspect-ratio: 16/9; }
+  .project-nav { grid-template-columns: 1fr; }
+  .project-nav-prev, .project-nav-next { padding: 2rem 1.5rem; }
+  .project-nav-next { text-align: left; border-left: none; border-top: 0.0625rem solid var(--border); }
+}
+
+@media (max-width: 30em) {
+  .name { font-size: clamp(2.75rem, 16vw, 4.5rem); }
+  .section { padding: 4rem 1.25rem; }
+  .project-info { padding: 1.25rem 1.25rem 1.75rem; }
+  .project-hero-title { font-size: clamp(2.75rem, 14vw, 4.5rem); }
+  .project-meta-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 48em) {
+  .center {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+  }
+}
