@@ -295,7 +295,7 @@ ul {
 }
 
 ul li:nth-of-type(4){
-  visibility: hidden;
+  display: none;
 }
 .projects-grid {
   display: grid;
@@ -738,6 +738,10 @@ a.project-card:hover { background: #1c1c1c; }
    RESPONSIVE
    ════════════════════════════ */
 @media (max-width: 48em) {
+  .cursor {
+visibility: none;
+}
+
 
   /* hide fixed nav on mobile so hero center content breathes */
   .site-nav { display: none; }
